@@ -2,12 +2,12 @@ import streamlit as st
 import requests
 from Scraping import *
 import pandas as pd
-
+import lxml
 def graphics():
     st.write("# Amazon free web scraping tool")
     st.write("### Designed by Marco Vinciguerra")
 
-    string = st.text_input("Enter an amazon link to scrape:")
+    string = st.text_input("Enter an amazon link to scrape: (for example you can write https://www.amazon.it/s?k=headphones&__mk_it_IT=ÅMÅŽÕÑ&crid=1RGM8UT4RF3V5&sprefix=headphones%2Caps%2C118&ref=nb_sb_noss_1 )")
 
     # Create a multi-choice menu
     options = ["1", "5", "10", "all"]
