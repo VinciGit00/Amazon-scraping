@@ -1,0 +1,18 @@
+[theme]
+primaryColor = "#232f3e"
+backgroundColor = "#e8e8e8"
+secondaryBackgroundColor = "#f7f7f7"
+textColor = "#000000"
+font = "sans serif"
+
+[theme.warning]
+backgroundColor = "#ff9900"
+
+[theme.error]
+backgroundColor = "#ff0000"
+
+[theme.success]
+backgroundColor = "#00cc66"
+
+[theme.info]
+backgroundColor = "#0066cc"

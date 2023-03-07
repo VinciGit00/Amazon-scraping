@@ -10,21 +10,22 @@ def graphics():
     string = st.text_input("Enter an amazon link to scrape:")
 
     # Create a multi-choice menu
-    options = ["Option 1", "Option 2", "Option 3"]
-    selected_options = st.multiselect("Select options:", options)
+    options = ["1", "5", "10", "all"]
+    selected_option = st.radio("Select the number of page to scrape:", options)
 
-    # Show the selected options
-    st.write("You selected:", selected_options)
+    print(selected_option)
 
     if st.button("Run the scraping algorithm"):
         try:
             response = requests.get(string)
-            if(string != "" and "amazon" in string and response.status_code == 200):
+            if(string != "" and "amazon" in string):
                 st.write("Your link is: " + string)
-                search_url = "https://www.amazon.com/s?k=bose&rh=n%3A12097479011&ref=nb_sb_noss"
-                data = parse_listing(search_url)
+                #search_url = "https://www.amazon.com/s?k=bose&rh=n%3A12097479011&ref=nb_sb_noss"
+                data = parse_listing(string, selected_option)
                 df = pd.DataFrame(data)
                 print(df)
+                df = df.drop(['price'], axis=1)
+                st.write(df)
             else:
                 st.write("url not valid")
         except requests.exceptions.MissingSchema as e:
