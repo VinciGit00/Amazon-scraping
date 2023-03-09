@@ -3,7 +3,13 @@ import requests
 from Scraping import *
 import pandas as pd
 from PIL import Image
+import base64
 
+def download_button(data):
+    csv = data.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="data.csv">Download CSV</a>'
+    return href
 
 def graphics():
     st.write("# Amazon free web scraping tool")
@@ -35,6 +41,7 @@ def graphics():
                 print(df)
                 #df = df.drop(['price'], axis=1)
                 st.write(df)
+                st.markdown(download_button(df), unsafe_allow_html=True)
             else:
                 st.write("url not valid")
         except requests.exceptions.MissingSchema as e:
