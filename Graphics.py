@@ -2,13 +2,21 @@ import streamlit as st
 import requests
 from Scraping import *
 import pandas as pd
+from PIL import Image
+
 
 def graphics():
     st.write("# Amazon free web scraping tool")
 
     st.write("### Designed by Marco Vinciguerra")
 
-    string = st.text_input("Enter an amazon link to scrape: (for example you can write https://www.amazon.it/s?k=iphone&__mk_it_IT=ÅMÅŽÕÑ&crid=2SS0P3VLAZWD0&sprefix=iphone%2Caps%2C139&ref=nb_sb_noss_1 )")
+    string = st.text_input("Enter an amazon link to scrape: (Look the following image to understand)")
+
+    # Load image from a file
+    image = Image.open("example.png")
+
+    # Display the image in your app
+    st.image(image, use_column_width=True)
 
     # Create a multi-choice menu
     options = ["1", "5", "10", "all"]
