@@ -19,7 +19,7 @@ def get_product_info(url):
     title_element = soup.select_one("#productTitle")
     title = title_element.text.strip() if title_element else None
 
-    price_element = soup.select_one("#price_inside_buybox")
+    price_element = soup.select_one("#a-price-whole")
     price = price_element.text if price_element else None
 
     rating_element = soup.select_one("#acrPopover")
@@ -32,6 +32,13 @@ def get_product_info(url):
     description_element = soup.select_one("#productDescription")
     description = description_element.text.strip() if description_element else None
 
+    soup = BeautifulSoup(response.text, 'html.parser')
+    price = soup.select_one('span.a-price-whole').text
+
+    # Print the extracted price
+    print(price)
+
+    print()
     return {
         "title": title,
         "price": price,

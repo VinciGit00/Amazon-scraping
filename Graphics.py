@@ -25,7 +25,7 @@ def graphics():
                 data = parse_listing(string, selected_option)
                 df = pd.DataFrame(data)
                 print(df)
-                df = df.drop(['price'], axis=1)
+                #df = df.drop(['price'], axis=1)
                 st.write(df)
             else:
                 st.write("url not valid")
