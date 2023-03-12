@@ -4,6 +4,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from PIL import Image
 import base64
+import time
 
 def download_button(data):
     csv = data.to_csv(index=False)
@@ -47,7 +48,7 @@ def graphics():
     st.image(image, use_column_width=True)
 
     # Create a multi-choice menu
-    options = ["1", "5", "10", "100", "all"]
+    options = ["1", "5", "10", "48", "all"]
     selected_option = st.radio("Select the number of items to scrape:", options)
 
     print(selected_option)
@@ -61,7 +62,7 @@ def graphics():
                 data = parse_listing(string, int(selected_option))
                 df = pd.DataFrame(data)
                 print(df)
-                #df = df.drop(['price'], axis=1)
+                time.sleep(3)
                 st.write(df)
                 st.markdown(download_button(df), unsafe_allow_html=True)
             else:

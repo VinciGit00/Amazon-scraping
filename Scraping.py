@@ -8,6 +8,7 @@ custom_headers = {
     "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
 }
 
+#Link for link analysis
 def get_product_info(url):
     response = requests.get(url, headers=custom_headers)
     if response.status_code != 200:
@@ -48,6 +49,7 @@ def get_product_info(url):
         "url": url,
     }
 
+#Takes all the links
 def parse_listing(listing_url, n_iterations):
 
     response = requests.get(listing_url, headers=custom_headers)
