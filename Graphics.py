@@ -58,11 +58,9 @@ def graphics():
             response = requests.get(string)
             if(string != "" and "amazon" in string):
                 st.write("Your link is: " + string)
-                #search_url = "https://www.amazon.com/s?k=bose&rh=n%3A12097479011&ref=nb_sb_noss"
                 data = parse_listing(string, int(selected_option))
                 df = pd.DataFrame(data)
                 print(df)
-                time.sleep(3)
                 st.write(df)
                 st.markdown(download_button(df), unsafe_allow_html=True)
             else:

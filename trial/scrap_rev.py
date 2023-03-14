@@ -47,15 +47,15 @@ def scraping_from_principal_page(link, limit):
     
     mapdictionary(data_dict)
 
-def scraping_review(link, limit):
+def scraping_review_principal_page(link, limit):
     """
     Scraping from all the reviews
     """
     data_dict = {}
-    count = 1
     page_number = 1
+    count = 1
 
-    while True:
+    while page_number<=limit:
         # construct URL with page number
         link_with_page = link + f"&pageNumber={page_number}"
         response = requests.get(link_with_page, headers=custom_headers)
@@ -63,18 +63,59 @@ def scraping_review(link, limit):
 
         print(link_with_page)
         # find all review containers on page
-        review_containers = soup.find_all('span', {'data-hook': 'review-body'})[:limit]
+        review_containers = soup.find_all('span', {'data-hook': 'review-body'})
         print(review_containers)
 
-        # if there are no more reviews on the page, break the loop
-        if not review_containers:
-            break
-
-        title_containers = soup.find_all('a', {'data-hook': 'review-title'})[:limit]
+        title_containers = soup.find_all('span', {'data-hook': 'review-title'})
         print(title_containers)
 
-        star_containers = soup.find_all('i', {'data-hook': 'review-star-rating'})[:limit]
+        star_containers = soup.find_all('i', {'data-hook': 'review-star-rating'})
         print(star_containers)
+
+        for title, star, review in zip(title_containers, star_containers, review_containers):
+            title_text = re.sub('<[^<]+?>', '', str(title))
+            star_text = re.sub('<[^<]+?>', '', str(star))
+            review_text = re.sub('<[^<]+?>', '', str(review))
+
+           
+
+            data_dict[f"elem {count}"] = {
+                "title": title_text.strip(),
+                "star": star_text.strip(),
+                "review": review_text.strip(),
+            }
+
+        # increment page number for next request
+        page_number += 1
+        count +=1 
+
+    #print(json.dumps(data_dict, indent=4, ensure_ascii=False))
+    mapdictionary(data_dict)
+        
+def scraping_review(link, limit):
+    """
+    Scraping from all the reviews
+    """
+    data_dict = {}
+    page_number = 1
+    count = 1
+
+    while page_number<=limit:
+        # construct URL with page number
+        link_with_page = link + f"&pageNumber={page_number}"
+        response = requests.get(link_with_page, headers=custom_headers)
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        print(link_with_page)
+        # find all review containers on page
+        review_containers = soup.find_all('span', {'data-hook': 'review-body'})
+        #print(review_containers)
+
+        title_containers = soup.find_all('span', {'class': 'cr-original-review-content'})
+        #print(title_containers)
+
+        star_containers = soup.find_all('span', {'class': 'a-icon-alt'})
+        #print(star_containers)
 
         for title, star, review in zip(title_containers, star_containers, review_containers):
             title_text = re.sub('<[^<]+?>', '', str(title))
@@ -86,23 +127,18 @@ def scraping_review(link, limit):
                 "star": star_text.strip(),
                 "review": review_text.strip(),
             }
-            count += 1
 
         # increment page number for next request
         page_number += 1
-
-        # stop iterating if the total number of reviews has been reached
-        if count > limit:
-            break
-
-    #print(json.dumps(data_dict, indent=4, ensure_ascii=False))
-    mapdictionary(data_dict)
-        
+        count +=1 
 
     #print(json.dumps(data_dict, indent=4, ensure_ascii=False))
     mapdictionary(data_dict)
 
 def getLink(link, limit):
+    """
+    Get the link from the button
+    """
     response = requests.get(link, headers=custom_headers)
     soup = BeautifulSoup(response.text, "html.parser")
 
@@ -114,7 +150,7 @@ def getLink(link, limit):
     href_value = link['href']
     string = "https://amazon.com"+href_value
     print(string)
-    scraping_review(string, 2)
+    scraping_review(string, limit)
 
 def mapdictionary(data_dict):
     """
@@ -135,7 +171,7 @@ def mapdictionary(data_dict):
 #scraping_from_principal_page("https://www.amazon.it/Nilox-Batteria-Ricarica-Dimensioni-12x5x1/dp/B09HL19D41/ref=sr_1_1_sspa?__mk_it_IT=ÅMÅŽÕÑ&crid=3PLVZMB6348BT&keywords=nba&qid=1678624213&sprefix=n%2Caps%2C203&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1", 10)
 
 # Try scraping_review
-scraping_review("https://www.amazon.com/12-Rules-for-Life-audiobook/product-reviews/B0797Y87JC/ref=cm_cr_arp_d_paging_btm_next_2?ie=UTF8&reviewerType=all_reviews", 20)
+#scraping_review_principal_page("https://www.amazon.com/12-Rules-for-Life-audiobook/product-reviews/B0797Y87JC/ref=cm_cr_arp_d_paging_btm_next_2?ie=UTF8&reviewerType=all_reviews", 20)
 #Mockup links
 #https://www.amazon.com/12-Rules-for-Life-audiobook/product-reviews/B0797Y87JC/ref=cm_cr_arp_d_paging_btm_next_2?ie=UTF8&reviewerType=all_reviews&pageNumber=1
 #https://www.amazon.com/12-Rules-for-Life-audiobook/product-reviews/B0797Y87JC/ref=cm_cr_arp_d_paging_btm_next_2?ie=UTF8&reviewerType=all_reviews&pageNumber=2
@@ -143,4 +179,4 @@ scraping_review("https://www.amazon.com/12-Rules-for-Life-audiobook/product-revi
 #https://www.amazon.it/Nilox-Batteria-Ricarica-Dimensioni-12x5x1/product-reviews/B09HL19D41/ref=cm_cr_arp_d_paging_btm_next_2?ie=UTF8&reviewerType=all_reviews&pageNumber=2
 
 #Try to get the button
-#getLink("https://www.amazon.it/12-regole-vita-antidoto-caos/dp/8863865825/ref=sr_1_1?crid=4FDIE8N0GFA7&keywords=12+regole+per+la+vita&qid=1678737099&sprefix=12+regole%2Caps%2C336&sr=8-1", 2)
+getLink("https://www.amazon.it/12-regole-vita-antidoto-caos/dp/8863865825/ref=sr_1_1?crid=4FDIE8N0GFA7&keywords=12+regole+per+la+vita&qid=1678737099&sprefix=12+regole%2Caps%2C336&sr=8-1", 5)
