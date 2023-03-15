@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
-from ScrapingCategories import *
+from Logic.ScrapingCategories import *
 from download import *
 
 
@@ -13,7 +13,10 @@ def HomePage():
     string = st.text_input("Enter an amazon link to scrape: (Look the following image to understand)")
 
     # Load image from a file
-    image = Image.open("example.png")
+    image_path = 'Pictures/example.png'
+
+    # Open the image file using Pillow
+    image = Image.open(image_path)
 
         # Display the image in your app
     st.image(image, use_column_width=True)

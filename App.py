@@ -1,8 +1,8 @@
-
-from Graphics import *
+import streamlit as st
+from Graphics.Home import *
 
 def main():
-    graphics()
+    HomePage()
 
 if __name__ == '__main__':
     main()
