@@ -1,9 +1,10 @@
 import streamlit as st
 from PIL import Image
-from download import *
+from Features.download_button_class import *
 import requests
 import pandas as pd
 from Graphics.Home import *
+from Logic.scrape_reviews import *
 
 def scraping_page():
     
@@ -21,25 +22,25 @@ def scraping_page():
 
     # Create a multi-choice menu
     options = ["1", "5", "10", "48", "all"]
-    selected_option = st.radio("Select the number of items to scrape:", options)
+    selected_option = st.radio("Select the number of pages to scrape:", options)
 
     print(selected_option)
 
     if st.button("Run the scraping algorithm"):
         try:
-           print("TODO")
-           '''
             response = requests.get(string)
+            print("status code: "+str(response.status_code))
             if(string != "" and "amazon" in string):
               
                 st.write("Your link is: " + string)
-                data = parse_listing(string, int(selected_option))
+                data = getLink(string, selected_option)
+                print(data)
                 df = pd.DataFrame(data)
-                print(df)
+                #print(df)
                 st.write(df)
                 st.markdown(download_button(df), unsafe_allow_html=True)
             else:
-                st.write("url not valid")'''
+                st.write("url not valid")
         except requests.exceptions.MissingSchema as e:
             st.write(f"Invalid URL: {e}")
 

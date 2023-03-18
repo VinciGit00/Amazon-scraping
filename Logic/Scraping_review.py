@@ -39,7 +39,6 @@ def get_product_info(url):
     # Print the extracted price
     print(price)
 
-    print()
     return {
         "title": title,
         "price": price,
