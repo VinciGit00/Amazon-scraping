@@ -20,7 +20,7 @@ def get_product_info(url):
     title_element = soup.select_one("#productTitle")
     title = title_element.text.strip() if title_element else None
 
-    price_element = soup.select_one("#a-price-whole")
+    price_element = soup.select_one("#price")
     price = price_element.text if price_element else None
 
     rating_element = soup.select_one("#acrPopover")
@@ -33,11 +33,6 @@ def get_product_info(url):
     description_element = soup.select_one("#productDescription")
     description = description_element.text.strip() if description_element else None
 
-    soup = BeautifulSoup(response.text, 'html.parser')
-    price = soup.select_one('span.a-price-whole').text
-
-    # Print the extracted price
-    print(price)
 
     return {
         "title": title,
@@ -59,9 +54,9 @@ def parse_listing(listing_url, n_iterations):
     for link in link_elements:
         if count == int(n_iterations):
             break
-        full_url = urljoin(listing_url, link.attrs.get("href"))
-        print(f"Scraping product from {full_url[:100]}", flush=True)
+        full_url = urljoin(listing_url, link.attrs.get("href")) 
         product_info = get_product_info(full_url)
+        print(product_info)
         page_data.append(product_info)
         count = count + 1
     return page_data
