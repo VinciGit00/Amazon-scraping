@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
-from Logic.Scraping_review import *  # ---> Scraping_review not ScrapingCategories
+from Logic.Scraping_general import *  # ---> Scraping_review not ScrapingCategories
 from Features.download_button_class import *
 
 

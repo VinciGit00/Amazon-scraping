@@ -4,7 +4,7 @@ import pandas as pd
 
 sys.path.append('../Logic')
 from scrape_reviews import *
-from Scraping_review import *
+from Scraping_general import *
 
 class TestClass(unittest.TestCase):
     url1 = "https://www.amazon.it/12-regole-vita-antidoto-caos/dp/8863865825/ref=sr_1_1?crid=4FDIE8N0GFA7&keywords=12+regole+per+la+vita&qid=1678737099&sprefix=12+regole%2Caps%2C336&sr=8-1"
