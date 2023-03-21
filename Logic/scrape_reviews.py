@@ -14,7 +14,7 @@ def scraping_review(link, limit):
     """
     Scraping from all the reviews
     """
-   # initialize variables
+    # initialize variables
     page_number = 1
     custom_headers = {'User-Agent': 'Mozilla/5.0'}
 
@@ -26,15 +26,15 @@ def scraping_review(link, limit):
         response = requests.get(link_with_page, headers=custom_headers)
         soup = BeautifulSoup(response.text, "html.parser")
 
-        print(response.status_code)
-        print(link_with_page)
+        #print(response.status_code)
+        #print(link_with_page)
         # find all review containers on page
-        review_containers = soup.find_all('span', {'data-hook': 'review-body'})
+        review_containers = soup.find_all('div', {'data-hook': 'review'})
         
-        if len(review_containers) == 0:
-            print('Review con il primo metodo non disponibile')
-            review_containers = soup.find('span', {'class': 'cr-original-review-content'})
-
+        #if len(review_containers) == 0:
+        #    print('Review con il primo metodo non disponibile')
+        #    review_containers = soup.find('span', {'class': 'cr-original-review-content'})
+        #else:
         print(review_containers) 
 
         title_containers = soup.find_all('span', {'data-hook': 'review-title'})
@@ -47,7 +47,8 @@ def scraping_review(link, limit):
             else:
                 print('Review title not found.')
 
-        print(title_containers)
+        else:
+            print(title_containers)
 
         star_containers = soup.find_all('i', {'data-hook': 'review-star-rating'})
         
@@ -55,7 +56,8 @@ def scraping_review(link, limit):
             print('Numero di stelle con il primo metodo non disponibile')
             star_containers = soup.find_all('i', {'data-hook': 'cmps-review-star-rating'})
 
-        print(star_containers)
+        else:
+            print(star_containers)
 
 
         #print(len(review_containers))
