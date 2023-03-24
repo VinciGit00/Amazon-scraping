@@ -26,8 +26,9 @@ def scraping_review(link, limit):
         response = requests.get(link_with_page, headers=custom_headers)
         soup = BeautifulSoup(response.text, "html.parser")
 
-        #print(response.status_code)
-        #print(link_with_page)
+        print(response.status_code)
+        print(link_with_page)
+        
         # find all review containers on page
         review_containers = soup.find_all('div', {'data-hook': 'review'})
         
