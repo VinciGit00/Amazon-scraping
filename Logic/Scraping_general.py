@@ -44,7 +44,7 @@ def get_product_info(url):
     price_tag = soup.select_one('span.a-price-whole')
 
     # get the text inside the <span> tag
-    price = price_tag.text
+    #price = price_tag.text
 
     return {
         "title": title,
